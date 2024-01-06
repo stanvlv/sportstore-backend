@@ -3,6 +3,7 @@ import express, { Request, Response } from 'express';
 import cors from 'cors';
 import { connectToDatabase } from './db';
 import {productsRouter} from './routes/products';
+import {cartRouter} from './routes/cart';
 import {errorHandler} from './middlewares/errorHandler';
 
 const app = express();
@@ -24,6 +25,7 @@ connectToDatabase().then(() => {
 });
 
 app.use("/products", productsRouter);
+app.use("/cart", cartRouter);
 app.use(errorHandler);
 
 
