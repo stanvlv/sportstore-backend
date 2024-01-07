@@ -26,22 +26,22 @@ export const postCart = async (
 ) => {
   try {
     const sessionId = req.params.sessionId;
-    const { product, quantity, selectedSize, selectedColor } = req.body;
+    const { items } = req.body;
+
 
     let cart = await Cart.findOne({ sessionId });
 
     if (cart) {
-      cart.items.push({ product, quantity, selectedSize, selectedColor });
-      cart = await cart.save();
-    } else {
-      cart = new Cart({
-        sessionId,
-        items: [{ product, quantity, selectedSize, selectedColor }],
-      });
-      await cart.save();
-    }
+      return res.status(400).json({ message: 'Something went wrong. An order with this sessionId already exists.'})
+    } 
 
-    res.status(201).json(cart);
+    const newCart = new Cart({
+      sessionId,
+      items
+    })
+    await newCart.save();
+    res.status(201).json(newCart);
+      console.log(newCart)
   } catch (error) {
     console.error(error);
     next(error);
