@@ -3,7 +3,7 @@ import dotenv from 'dotenv';
 
 dotenv.config();
 
-const uri = process.env.MONGODB_URI;
+const uri = process.env.MONGODB_URI as string;
 
 if(!uri) {
     console.log('No URI found in .env file');   
@@ -14,7 +14,7 @@ const connectToDatabase = async () => {
     try {
         await mongoose.connect(uri);
         console.log('Connected to database');
-    } catch (error) {
+    } catch (error: any) {
         console.error('Could not connect to database : ', error);
         process.exit(1);
         
